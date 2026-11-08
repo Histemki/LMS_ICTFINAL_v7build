@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Astana IT University LMS</title>
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
+<style>
+:root {
+    --bg: #d4d5d9;
+    --side: #cfcfcf;
+    --main: #bebebe;
+    --card: #d9d9d9;
+    --strip: #cdcdcd;
+    --text: #111;
+    --rail: #202020;
+    --sh: 0 3px 6px #0004;
+    --ok: #08501f;
+    --err: #7a1c10;
+}
+:root[data-theme=dark] {
+    --bg: #16171a;
+    --side: #26272b;
+    --main: #1d1e21;
+    --card: #34353a;
+    --strip: #2b2c30;
+    --text: #eee;
+    --rail: #000;
+    --sh: 0 3px 6px #0008;
+    --ok: #5ee38b;
+    --err: #ff8a80;
+}
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: Inter,system-ui,sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+button,input,select,textarea {
+    font: inherit;
+    color: var(--text);
+    min-height: 44px;
+    min-width: 44px;
+    border-radius: 10px;
+    border: 1px solid #8886;
+    padding: 0 12px;
+    background: var(--card);
+}
+button {
+    cursor: pointer;
+}
+#login {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    padding: 16px;
+    background: linear-gradient(135deg,#27406b,#111);
+}
+.logo {
+    width: 96px;
+    max-width: 70%;
+    height: auto;
+}
+.lbox {
+    background: #e2e2e2;
+    border: 1px solid #fff6;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 520px;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+}
+.ms {
+    background: #1f1f1f;
+    color: #fff;
+    border: 0;
+    width: 100%;
+    max-width: 374px;
+    box-shadow: 0 8px 14px #0005;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    text-align: left;
+}
+.ms:hover {
+    background: #000;
+}
+#email,#password {
+    width: 100%;
+    max-width: 374px;
+    background: #fff;
+    color: #111;
+}
+.pw {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 374px;
+}
+.pw #password {
+    flex: 1;
+    min-width: 0;
+}
+#showpw {
+    background: #fff;
+    color: #111;
+    font-size: 13px;
+}
+.msg {
+    color: var(--err);
+    min-height: 20px;
+    font-size: 14px;
+}
+#app {
+    display: none;
+    min-height: 100vh;
+    padding: 14px;
+    gap: 14px;
+    grid-template-columns: 80px 300px 1fr;
+}
+.leftcol {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.rail {
+    background: var(--rail);
+    border-radius: 14px;
+    padding: 14px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--sh);
+}
+.rail button {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 22px;
+    border-radius: 10px;
+}
+.ico {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;      /* follows the text colour, so light/dark theme needs no image tricks */
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+.rail button.on {
+    background: #555;
+}
+.tools {
+    flex: 1;
+    min-height: 80px;
+    background: var(--side);
+    border-radius: 14px;
+    box-shadow: var(--sh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px;
+    gap: 6px;
+}
+.tools button {
+    background: transparent;
+    border: 0;
+    font-size: 20px;
+}
+.side {
+    background: var(--side);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: var(--sh);
+    position: relative;
+}
+.user {
+    width: 100%;
+    text-align: left;
+    background: var(--card);
+    box-shadow: var(--sh);
+    border: 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 12px;
+    font-size: 13px;
+    height: auto;
+    min-height: 56px;
+}
+.user span {
+    font-size: 24px;
+}
+#lo {
+    display: none;
+    width: 100%;
+    margin-top: 2px;
+    background: var(--strip);
+    border: 0;
+    box-shadow: var(--sh);
+}
+.menu {
+    margin-top: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.menu button {
+    text-align: left;
+    border: 0;
+    background: transparent;
+    font-size: 17px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+.menu button.on {
+    background: var(--card);
+    box-shadow: var(--sh);
+    border: 1px solid #fff5;
+}
+main {
+    background: var(--main);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: inset 0 0 0 3px #ffffff30;
+    overflow-x: auto;
+}
+h2 {
+    margin-top: 0;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(210px,1fr));
+    gap: 34px 40px;
+}
+.card {
+    position: relative;
+    padding-bottom: 36px;
+}
+.card .top {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 16px;
+    min-height: 110px;
+    box-shadow: var(--sh);
+    position: relative;
+    z-index: 1;
+}
+.card .strip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 72px;
+    background: var(--strip);
+    border-radius: 10px;
+    padding: 46px 12px 0;
+    font-size: 13px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+td,th {
+    padding: 10px;
+    border-bottom: 1px solid #8886;
+    text-align: left;
+}
+.bar {
+    height: 8px;
+    background: #8884;
+    border-radius: 4px;
+    min-width: 80px;
+}
+.bar i {
+    display: block;
+    height: 100%;
+    background: #202020;
+    border-radius: 4px;
+}
+:root[data-theme=dark] .bar i {
+    background: #ddd;
+}
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.big {
+    font-size: 34px;
+    font-weight: 700;
+}
+.tl-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.tl-controls input {
+    flex: 1;
+    min-width: 200px;
+}
+.tl-day {
+    font-weight: 700;
+    margin: 22px 0 6px;
+}
+.tl-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    padding: 10px 14px;
+    border-bottom: 1px solid #8886;
+}
+.tl-time {
+    width: 44px;
+    flex: none;
+    font-size: 14px;
+}
+.tl-ico {
+    width: 30px;
+    height: 30px;
+}
+.tl-body {
+    min-width: 0;
+}
+.badge {
+    display: inline-block;
+    background: #555;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 2px 9px;
+    margin-left: 6px;
+}
+.badge.od {
+    background: #c0392b;
+}
+#more {
+    margin-top: 14px;
+}
+@media(max-width:760px) {
+    #app {
+        grid-template-columns: minmax(0,1fr);   /* plain 1fr let the nowrap menu stretch the page to 604px at 360px */
+        padding: 8px;
+    }
+    .leftcol, .side, main {
+        min-width: 0;
+    }
+    .leftcol {
+        flex-direction: row;
+    }
+    .rail {
+        flex-direction: row;
+        flex: 1;
+        padding: 6px 10px;
+        justify-content: space-around;
+    }
+    .tools {
+        flex: 0 0 auto;
+        min-height: 0;
+        flex-direction: row;
+        padding: 4px;
+    }
+    .menu {
+        margin-top: 12px;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 6px;
+    }
+    .menu button {
+        white-space: nowrap;
+        font-size: 15px;
+        flex: none;          /* do not squash the buttons: the row scrolls inside .menu instead of overlapping */
+    }
+    main {
+        padding: 16px;
+    }
+    .cards {
+        gap: 26px 16px;
+    }
+}
+
+.cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.msg.ok {
+    color: var(--ok);
+}
+.msg:not(:empty) {
+    animation: pop .35s ease-out;
+}
+@keyframes pop {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+}
+.sk .top, .sk .strip {
+    background: linear-gradient(90deg,var(--card) 25%,var(--strip) 50%,var(--card) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+}
+.sk .top { min-height: 200px; }
+@keyframes shimmer {
+    to { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+
+body[data-role=student] [data-r=t], body[data-role=student] [data-r=a],
+body[data-role=teacher] [data-r=s], body[data-role=teacher] [data-r=a], body[data-role=teacher] [data-r=sa],
+body[data-role=admin] [data-r=s], body[data-role=admin] [data-r=t], body[data-role=admin] [data-r=st],
+body[data-role=student] [data-r=ad], body[data-role=teacher] [data-r=ad] { display: none !important; }
+.badge.ok { background: #1e7a3c; }
+td .row input { flex: 1 1 160px; min-width: 120px; }
+textarea { min-height: 64px; padding: 10px 12px; resize: vertical; }
+form.lab { align-items: flex-end; }
+.f { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
+.f input, .f select, .f textarea { font-size: 16px; }
+.role { font-size: 11px; font-weight: 700; opacity: .75; text-transform: uppercase; letter-spacing: .04em; }
+.left { font-size: 12px; margin-top: 2px; }
+.left.od { color: var(--err); font-weight: 700; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row select { flex: 1; min-width: 0; }
+.gboxes { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 20px; }
+.gbox { background: var(--card); border-radius: 10px; padding: 16px; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.gbox ul { list-style: none; margin: 0; padding: 0; }
+.gbox li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid #8886; }
+.gbox li span { min-width: 0; overflow-wrap: anywhere; }
+button:disabled, select:disabled { opacity: .5; cursor: not-allowed; }
+
+.lbox .auth-link{color:#27406b}.auth-link{color:#fff;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}.recovery-shell{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:16px;background:linear-gradient(135deg,#27406b,#111)}.recovery-panel{width:100%;max-width:560px;min-height:0;align-items:stretch;background:var(--card);color:var(--text)}.recovery-panel h1,.recovery-panel h2{margin:0 0 8px}.recovery-panel p{line-height:1.5}.recovery-panel form{display:flex;flex-direction:column;gap:12px}.recovery-panel label{display:flex;flex-direction:column;gap:5px}.recovery-panel input,.recovery-panel textarea{width:100%;max-width:none;background:var(--card);color:var(--text)}.recovery-panel .pw{max-width:none}.recovery-panel .pw input{min-width:0}.recovery-panel .auth-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.recovery-panel .secondary{background:var(--side);color:var(--text);border:0}.recovery-panel .text-action{display:inline-flex;align-items:center;min-height:44px;color:var(--text)}.recovery-panel .hint{font-size:13px;opacity:.8}.recovery-panel .msg{margin:0}.recovery-panel .checklist{margin:4px 0;padding-left:22px}.recovery-panel .checklist li{margin:3px 0}.recovery-panel .strength{height:8px;background:var(--strip);border-radius:8px;overflow:hidden}.recovery-panel .strength span{display:block;height:100%;width:0;background:#b44;transition:width .15s}.recovery-panel .pw-row{display:flex;gap:8px}.recovery-panel .pw-row input{flex:1}.recovery-panel .pw-row button{min-width:64px}.recovery-panel .support-message{min-height:100px;padding:10px}.recovery-panel button:disabled{opacity:.55}.support-card{background:var(--card);padding:14px;border-radius:12px;margin:10px 0;overflow-wrap:anywhere}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.rail button{position:relative}.unread-badge{position:absolute;right:2px;top:2px;min-width:18px;height:18px;padding:0 4px;border-radius:10px;background:#d62828;color:#fff;font:700 11px/18px system-ui;text-align:center;display:none;pointer-events:none}.unread-badge:not(:empty){display:block}
+.announcement-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.announcement-toolbar input{flex:1 1 220px;min-width:0}.announcement-toolbar select{flex:0 1 180px;min-width:140px}.announcement-list{display:grid;gap:12px}.announcement-card{background:var(--card);border-radius:12px;padding:16px;box-shadow:var(--sh);min-width:0;overflow-wrap:anywhere}.announcement-card h3{margin:0 0 8px}.announcement-card p{white-space:pre-wrap;line-height:1.55;margin:10px 0}.announcement-meta{font-size:13px;opacity:.8;display:flex;gap:6px 12px;flex-wrap:wrap}.announcement-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.announcement-actions button,.announcement-form button{min-height:44px}.announcement-form{background:var(--card);padding:16px;border-radius:12px;margin:14px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.announcement-form label{display:flex;flex-direction:column;gap:4px;min-width:0}.announcement-form label.full{grid-column:1/-1}.announcement-form .pin-label{min-height:44px;justify-content:center}.announcement-form textarea{min-height:140px;padding:10px;resize:vertical}.announcement-form input,.announcement-form textarea,.announcement-form select{width:100%;min-width:0}.announcement-form .form-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}.announcement-form .form-error{grid-column:1/-1;color:var(--err);min-height:20px}.announcement-labels{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.announcement-pin{background:#795548}.announcement-new{background:#c0392b}.announcement-expired{background:#777}.announcement-card a{overflow-wrap:anywhere}.announcement-latest{display:grid;gap:8px}.announcement-latest .announcement-card{padding:12px}
+@media(max-width:760px){.leftcol{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.rail{width:100%;padding:6px 4px;gap:2px;justify-content:space-around}.rail button{flex:0 1 44px;padding:8px}.tools{width:100%;justify-content:center}.announcement-form{grid-template-columns:minmax(0,1fr)}.announcement-form label.full,.announcement-form .form-actions,.announcement-form .form-error{grid-column:1}.announcement-toolbar input{flex-basis:100%}}
+
+.admin-section{background:var(--card);border-radius:12px;padding:16px;margin:14px 0;box-shadow:var(--sh);min-width:0}.admin-section h3{margin:0 0 12px}.admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.admin-form label{display:flex;flex-direction:column;gap:4px;min-width:0}.admin-form input,.admin-form textarea,.admin-form select{width:100%;min-width:0}.admin-form select[multiple]{min-height:132px}.admin-form .wide{grid-column:1/-1}.admin-course{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #8886;min-width:0}.admin-course>div:first-child{min-width:0;overflow-wrap:anywhere}.admin-course p{margin:6px 0}.admin-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-actions button{min-height:44px}@media(max-width:600px){.admin-form{grid-template-columns:1fr}.admin-form .wide{grid-column:1}.admin-course{align-items:flex-start;flex-direction:column}.admin-actions{width:100%}}
+</style>
+<link rel="stylesheet" href="ui/theme.css?v=2">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></symbol><symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></symbol></svg>
+<div id="login">
+  <img class="logo" src="icons/logo.svg" alt="LMS redesign prototype logo" width="96" height="96">
+  <div class="lbox">
+    <input id="email" type="email" value="260002@astanait.edu.kz" autocomplete="username" aria-label="University email">
+    <div class="pw"><input id="password" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"><button type="button" id="showpw" aria-label="Show password">Show</button></div>
+    <button class="ms" id="signin">Sign in</button>
+    <a href="#recover" id="forgot-password" class="auth-link">Forgot your password?</a>
+    <div class="msg" id="lmsg" aria-live="polite"></div>
+  </div>
+</div>
+<div id="recovery-shell" class="recovery-shell" style="display:none"><img class="logo" src="icons/logo.svg" alt="LMS logo" width="96" height="96"><section id="recovery-panel" class="lbox recovery-panel" aria-live="polite"></section></div>
+
+<div id="app">
+  <div class="leftcol">
+    <div class="rail">
+      <button data-v="dashboard" data-r="st" class="on" title="Home" aria-label="Home"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-home"/></svg></button>
+      <button data-v="groups" data-r="st" title="Project groups" aria-label="Project groups"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-users"/></svg></button>
+      <button data-v="grades" data-r="st" title="Grades" aria-label="Grades"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-grades"/></svg></button>
+      <button data-v="map" title="University Map" aria-label="University Map"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-map"/></svg></button>
+      <button data-v="announcements" id="announcement-nav" title="Announcements" aria-label="Announcements"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-announce"/></svg><span id="announcement-unread-badge" class="unread-badge" aria-hidden="true"></span></button>
+    </div>
+    <div class="tools"><button id="snd" title="Sound on" aria-label="Notification sound" aria-pressed="true"><svg class="ico i-on" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-volume"/></svg><svg class="ico i-off" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-volume-off"/></svg></button><button id="theme" title="Dark theme" aria-label="Switch to dark theme"><svg class="ico i-moon" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-moon"/></svg><svg class="ico i-sun" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-sun"/></svg></button></div>
+  </div>
+  <div class="side">
+    <button class="user" id="user"><span class="avatar"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-user"/></svg></span><div><div id="uname">Name</div><div class="role" id="urole"></div><div id="umail"></div></div></button>
+    <button id="lo"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-logout"/></svg>Log out</button>
+    <nav class="menu" aria-label="Main">
+      <span class="menu-label">Learning</span>
+      <button data-v="dashboard" data-r="st"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-dashboard"/></svg>Dashboard</button>
+      <button data-v="courses" data-r="st" class="on"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-courses"/></svg>My courses</button>
+      <button data-v="media"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-play"/></svg>Media</button>
+      <button data-v="schedule" data-r="st"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-calendar"/></svg>Schedule</button>
+      <button data-v="assignments" data-r="st"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-notes"/></svg>Assignments</button>
+      <button data-v="groups" data-r="st"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-users"/></svg>Project groups</button>
+      <button data-v="grades" data-r="st"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-grades"/></svg>Grades</button>
+      <button data-v="applications" data-r="sa"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-doc"/></svg>Applications</button>
+      <span class="menu-label">Attendance</span>
+      <button data-v="attendance" data-r="s"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-attendance"/></svg>Attendance</button>
+      <button data-v="checkin" data-r="st"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-qr"/></svg>Check-in</button>
+      <span class="menu-label">Administration</span>
+      <button data-v="devices" data-r="a"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-radio"/></svg>Check-in readers</button>
+      <button data-v="course-admin" data-r="ad"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-settings"/></svg>Courses &amp; schedule</button>
+      <button data-v="support" data-r="ad"><svg class="ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-support"/></svg>Support requests</button>
+    </nav>
+  </div>
+  <main id="view"></main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const BASE=location.port==="5000"?"":"http://127.0.0.1:5000";
+let token=sessionStorage.getItem("t")||"";
+{ // a scanned check-in QR code opens  /?checkin=<code>  : keep the code until the student is signed in
+  const q=new URLSearchParams(location.search).get("checkin");
+  if(q){sessionStorage.setItem("pc",q);history.replaceState(null,"",location.pathname)}
+}
+async function api(path,opt={}){
+  const url=BASE+"/api"+path;
+  const r=await fetch(url,{...opt,headers:{"Content-Type":"application/json",Authorization:token}});
+  let d={};try{d=await r.json()}catch(e){throw new Error("Server error "+r.status+" - open http://127.0.0.1:5000 (run python app_postgresql.py)")}
+  if(r.status===401&&path!=="/login"){sessionStorage.clear();token="";if(announcementCountTimer)clearInterval(announcementCountTimer);$("#app").style.display="none";$("#login").style.display="flex"}
+  if(!r.ok)throw new Error(r.status===405?`${opt.method||"GET"} ${url}: ${d.error||"Method not allowed"}`:d.error||"Error");return d;
+}                                                                                                                                                         
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mask=e=>e.replace(/^(\d\d)\d+@/,"$1*****@");
+
+$("#signin").onclick=async()=>{
+  try{const d=await api("/login",{method:"POST",body:JSON.stringify({email:$("#email").value,password:$("#password").value})});
+    $("#password").value="";$("#lmsg").textContent="";
+    token=d.token;sessionStorage.setItem("t",token);sessionStorage.setItem("n",d.name);sessionStorage.setItem("m",d.email);sessionStorage.setItem("r",d.role);start();}
+  catch(e){$("#password").value="";$("#lmsg").textContent=e.message}
+};
+["#email","#password"].forEach(s=>$(s).addEventListener("keydown",e=>{if(e.key==="Enter")$("#signin").click()}));
+$("#showpw").onclick=()=>{const p=$("#password"),h=p.type==="password";p.type=h?"text":"password";$("#showpw").textContent=h?"Hide":"Show"};
+$("#user").onclick=()=>{const o=$("#lo").style.display==="block";$("#lo").style.display=o?"none":"block";
+  $("#umail").textContent=mask(sessionStorage.getItem("m")||"")+(o?" \u25BE":" \u25B4")};
+$("#lo").onclick=async()=>{try{await api("/logout",{method:"POST"})}catch(e){}sessionStorage.clear();token="";if(announcementCountTimer)clearInterval(announcementCountTimer);$("#app").style.display="none";$("#login").style.display="flex"};
+let sound=true;
+const ping=()=>{if(!sound)return;try{const a=new Audio("media/notify.mp3");a.volume=.5;a.play().catch(()=>{})}catch(e){}};
+$("#snd").onclick=()=>{sound=!sound;$("#snd").setAttribute("aria-pressed",sound);$("#snd").title=sound?"Sound on":"Sound off"};   // icon swap is done in CSS from aria-pressed
+$("#theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"":"dark"};
+document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>show(b.dataset.v));
+
+function start(){announcementReadIds.clear();const R=sessionStorage.getItem("r");document.body.dataset.role=R==="teacher"||R==="admin"?R:"student";   // no "r" saved = student
+  $("#urole").textContent={teacher:"Teacher",admin:"Admin"}[document.body.dataset.role]||"Student";$("#login").style.display="none";$("#app").style.display="grid";
+  $("#uname").textContent=sessionStorage.getItem("n");$("#umail").textContent=mask(sessionStorage.getItem("m"))+" \u25BE";show(document.body.dataset.role==="admin"?"course-admin":sessionStorage.getItem("pc")&&document.body.dataset.role==="student"?"checkin":"courses");updateAnnouncementCount();if(announcementCountTimer)clearInterval(announcementCountTimer);announcementCountTimer=setInterval(updateAnnouncementCount,60000)}
+
+const card=(t,s)=>`<div class=card><div class=top>${t}</div><div class=strip>${s}</div></div>`;
+const cover=(id,i)=>{const n=id%5;   // first two covers are above the fold -> eager, the rest lazy
+  return `<img class=cover src="media/cover-${n}-640.webp" srcset="media/cover-${n}-320.webp 320w, media/cover-${n}-640.webp 640w" sizes="(max-width:600px) 90vw, 240px" width=320 height=180 alt="" ${i<2?"":"loading=lazy "}decoding=async>`};
+const bar=p=>`<div class=bar><i style="width:${p}%"></i></div>`;
+
+const T=()=>document.body.dataset.role==="teacher";
+const WD=["","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const fmtDate=s=>new Date(s+"T00:00:00Z").toLocaleDateString("en-GB",{timeZone:"UTC",weekday:"short",day:"numeric",month:"short",year:"numeric"});
+const left=s=>{const a=Math.abs(s),d=Math.floor(a/86400),h=Math.floor(a%86400/3600),m=Math.floor(a%3600/60);
+  const t=d?`${d}d ${h}h`:h?`${h}h ${m}m`:`${m}m`;return s<0?`overdue by ${t}`:`${t} left`};
+const note=(ok,txt)=>{const m=$("#note");if(!m)return;m.className="msg"+(ok?" ok":"");m.textContent=txt};
+const opts=(list,val,name)=>list.map(x=>`<option value=${x[val]}>${esc(name(x))}</option>`).join("");
+
+let announcementCountTimer=null,announcementObserver=null,announcementSearchTimer=null,announcementReloadPending=false;const announcementReadIds=new Set();
+async function updateAnnouncementCount(){
+  const button=$("#announcement-nav"),badge=$("#announcement-unread-badge");if(!button||!token)return;
+  try{const d=await api("/announcements/unread-count");const n=Number(d.count)||0;badge.textContent=n?(n>9?"9+":String(n)):"";button.title="Announcements";button.setAttribute("aria-label",n?`Announcements, ${n} unread`:"Announcements")}catch(e){}
+}
+function announcementBody(text){return String(text).split(/(https?:\/\/[^\s<>]+)/gi).map(part=>/^https?:\/\//i.test(part)?`<a href="${esc(part)}" target="_blank" rel="noopener noreferrer">${esc(part)}</a>`:esc(part)).join("").replace(/\n/g,"<br>")}
+function announcementCard(a,admin=false,compact=false){
+  const unread=!a.is_read&&!announcementReadIds.has(Number(a.id));return `<article class="announcement-card" data-announcement-id="${Number(a.id)}"><div class="announcement-labels">${a.pinned?'<span class="badge announcement-pin">Pinned</span>':""}${unread?'<span class="badge announcement-new">New</span>':""}${admin&&a.expired?'<span class="badge announcement-expired">Expired</span>':""}<span class="badge">${esc(a.category)}</span></div><h3>${esc(a.title)}</h3><p>${announcementBody(a.body)}</p><div class="announcement-meta"><span>${esc(a.created_at||"")}</span><span>By ${esc(a.author||"")}</span>${a.course?`<span>${esc(a.course)}</span>`:""}${a.updated_at?'<span>Edited</span>':""}</div>${!compact?`<div class="announcement-actions">${unread?`<button type="button" data-ann-read="${Number(a.id)}">Mark as read</button>`:""}${admin?`<button type="button" data-ann-edit="${Number(a.id)}">Edit</button><button type="button" data-ann-delete="${Number(a.id)}">Delete</button>`:""}</div>`:""}</article>`
+}
+function observeAnnouncementCards(root){
+  if(announcementObserver)announcementObserver.disconnect();
+  if(!("IntersectionObserver" in window))return;
+  announcementObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){const card=entry.target;announcementObserver.unobserve(card);if(card.querySelector(".announcement-new"))markAnnouncementRead(card.dataset.announcementId,card)}}),{threshold:.2});
+  root.querySelectorAll(".announcement-card[data-announcement-id]").forEach(card=>{if(card.querySelector(".announcement-new"))announcementObserver.observe(card)});
+}
+async function markAnnouncementRead(id,card){try{await api(`/announcements/${id}/read`,{method:"POST"});announcementReadIds.add(Number(id));card?.querySelector(".announcement-new")?.remove();card?.querySelector(`[data-ann-read="${id}"]`)?.remove();await updateAnnouncementCount()}catch(e){}}
+async function showAnnouncements(){
+  const el=$("#view"),admin=document.body.dataset.role==="admin";let offset=0,items=[],busy=false,hasMore=true;
+  el.innerHTML=`<h2>Announcements</h2><div class="msg" id="ann-error" aria-live="polite"></div>${admin?'<button id="ann-new" type="button">New announcement</button>':""}<div id="ann-editor"></div><div class="announcement-toolbar"><label class="sr-only" for="ann-search">Search announcements</label><input id="ann-search" placeholder="Search announcements" aria-label="Search announcements"><label class="sr-only" for="ann-category">Category</label><select id="ann-category" aria-label="Filter by category"><option value="">All categories</option><option>General</option><option>Important</option><option>Exams</option><option>Events</option></select><button id="ann-read-all" type="button">Mark all as read</button></div><div id="ann-list" class="announcement-list" aria-live="polite"></div><button id="ann-more" type="button" style="display:none">Show more</button>`;
+  const list=$("#ann-list"),error=$("#ann-error"),more=$("#ann-more");let courses=[];
+  if(admin){try{courses=await api("/announcements/courses")}catch(e){error.textContent=e.message}}
+  const editor=$("#ann-editor");
+  const editForm=(a=null)=>{const today=new Date().toLocaleDateString("sv-SE");editor.innerHTML=`<form id="announcement-form" class="announcement-form" novalidate><h3 class="full">${a?"Edit announcement":"New announcement"}</h3><label class="full">Title<input id="ann-title" maxlength="120" required value="${esc(a?.title||"")}"></label><label class="full">Text<textarea id="ann-body" maxlength="2000" required aria-describedby="ann-body-count">${esc(a?.body||"")}</textarea><small id="ann-body-count">${(a?.body||"").length}/2000</small></label><label>Category<select id="ann-cat">${["General","Important","Exams","Events"].map(x=>`<option ${a?.category===x?"selected":""}>${x}</option>`).join("")}</select></label><label>Audience<select id="ann-audience"><option value="everyone" ${!a||a.audience==="everyone"?"selected":""}>Everyone</option><option value="students" ${a?.audience==="students"?"selected":""}>Students</option><option value="teachers" ${a?.audience==="teachers"?"selected":""}>Teachers</option><option value="course" ${a?.audience==="course"?"selected":""}>Specific course</option></select></label><label id="ann-course-wrap" style="display:none">Course<select id="ann-course">${courses.map(c=>`<option value="${c.id}" ${a?.course_id===c.id?"selected":""}>${esc(c.title)} (${esc(c.code)})</option>`).join("")}</select></label><label>Show until (optional)<input id="ann-expires" type="date" min="${today}" value="${esc(a?.expires_at||"")}"></label><label class="full pin-label"><span><input id="ann-pinned" type="checkbox" style="width:20px;min-width:20px;min-height:20px;vertical-align:middle" ${a?.pinned?"checked":""}> Pin to top</span></label><div class="form-error" id="ann-form-error" aria-live="polite"></div><div class="form-actions"><button type="submit">${a?"Save changes":"Publish announcement"}</button><button type="button" id="ann-cancel">Cancel</button></div></form>`;
+    const form=$("#announcement-form"),aud=$("#ann-audience"),wrap=$("#ann-course-wrap"),body=$("#ann-body");const toggle=()=>wrap.style.display=aud.value==="course"?"flex":"none";toggle();aud.onchange=toggle;body.oninput=()=>$("#ann-body-count").textContent=`${body.value.length}/2000`;$("#ann-cancel").onclick=()=>editor.replaceChildren();$("#ann-title").focus();form.onsubmit=async e=>{e.preventDefault();const err=$("#ann-form-error"),payload={title:$("#ann-title").value,body:body.value,category:$("#ann-cat").value,audience:aud.value,course_id:aud.value==="course"?$("#ann-course").value:null,pinned:$("#ann-pinned").checked,expires_at:$("#ann-expires").value||null};try{await api(a?`/announcements/${a.id}`:"/announcements",{method:a?"PUT":"POST",body:JSON.stringify(payload)});editor.replaceChildren();await load(true)}catch(ex){err.textContent=ex.message}};
+  };
+  const draw=()=>{list.innerHTML=items.map(x=>announcementCard(x,admin)).join("")||(!busy?"<p>No announcements yet.</p>":"");more.style.display=hasMore?"inline-block":"none";observeAnnouncementCards(list);wireCards()};
+  const load=async reset=>{if(busy){announcementReloadPending=announcementReloadPending||reset;return}busy=true;error.textContent="";if(reset){offset=0;items=[];hasMore=true}try{const q=$("#ann-search").value.trim(),category=$("#ann-category").value,params=new URLSearchParams({offset:String(offset),limit:"10"});if(q)params.set("q",q);if(category)params.set("category",category);const page=await api("/announcements?"+params.toString());items=reset?page:items.concat(page);offset+=page.length;hasMore=page.length===10;draw();await updateAnnouncementCount()}catch(e){error.innerHTML=`${esc(e.message)} <button type="button" id="ann-retry">Try again</button>`;$("#ann-retry").onclick=()=>load(reset)}finally{busy=false;if(announcementReloadPending){announcementReloadPending=false;load(true)}}};
+  function wireCards(){list.querySelectorAll("[data-ann-read]").forEach(b=>b.onclick=()=>markAnnouncementRead(b.dataset.annRead,b.closest(".announcement-card")));list.querySelectorAll("[data-ann-edit]").forEach(b=>b.onclick=()=>{const a=items.find(x=>x.id===Number(b.dataset.annEdit));if(a)editForm(a)});list.querySelectorAll("[data-ann-delete]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this announcement? This cannot be undone."))return;try{await api(`/announcements/${b.dataset.annDelete}`,{method:"DELETE"});await load(true)}catch(e){error.textContent=e.message}})}
+  $("#ann-read-all").onclick=async()=>{try{await api("/announcements/read-all",{method:"POST"});items.forEach(x=>{x.is_read=true;announcementReadIds.add(Number(x.id))});draw();await updateAnnouncementCount()}catch(e){error.textContent=e.message}};
+  if(admin)$("#ann-new").onclick=()=>editForm();$("#ann-category").onchange=()=>load(true);$("#ann-search").oninput=()=>{clearTimeout(announcementSearchTimer);announcementSearchTimer=setTimeout(()=>load(true),250)};more.onclick=()=>load(false);await load(true);
+}
+
+async function showCourseAdmin(){
+  const el=$("#view");
+  el.innerHTML='<h2>Courses &amp; schedule</h2><p>Loading administration…</p>';
+  try{
+    const [courses,teachers,lessons]=await Promise.all([api('/admin/courses'),api('/admin/teachers'),api('/admin/schedule')]);
+    if(!document.querySelector('[data-v="course-admin"].on'))return;
+    let editing=null,lessonEditing=null;
+    const teacherOpts=(selected=[])=>teachers.map(x=>`<option value="${x.id}" ${selected.includes(x.id)?'selected':''}>${esc(x.name)} (${esc(x.email)})</option>`).join('');
+    const draw=()=>{
+      const rows=courses.map(c=>`<article class="admin-course"><div><b>${esc(c.title)}</b> <span class="badge">${esc(c.code)}</span><p>${esc(c.description||'')}</p><small>Teachers: ${esc(c.teachers||'—')}</small></div><div class="admin-actions"><button type="button" data-course-edit="${c.id}">Edit</button><button type="button" data-course-delete="${c.id}">Delete</button></div></article>`).join('')||'<p>No courses yet.</p>';
+      const schedule=lessons.map(x=>`<article class="admin-course"><div><b>${esc(x.class_date)} · ${esc(x.starts)}–${esc(x.ends)}</b><p>${esc(x.course)} (${esc(x.code)}) · ${esc(x.kind)} · Room ${esc(x.room)}</p><small>${esc(x.teachers)}</small></div><div class="admin-actions"><button type="button" data-lesson-edit="${x.id}">Edit</button><button type="button" data-lesson-delete="${x.id}">Cancel</button></div></article>`).join('')||'<p>No dated lessons yet.</p>';
+      el.innerHTML=`<h2>Courses &amp; schedule</h2><div class="msg" id="admin-msg" role="status" aria-live="polite"></div><section class="admin-section"><h3>${editing?'Edit course':'Create course'}</h3><form id="course-form" class="admin-form"><label>Course code<input id="course-code" maxlength="20" required value="${esc(editing?.code||'')}"></label><label>Course title<input id="course-title" maxlength="150" required value="${esc(editing?.title||'')}"></label><label class="wide">Description<textarea id="course-description" maxlength="4000">${esc(editing?.description||'')}</textarea></label><label class="wide">Teachers <small>Choose one or more</small><select id="course-teachers" multiple required>${teacherOpts(editing?.teacher_ids||[])}</select></label><div class="admin-actions wide"><button type="submit">${editing?'Save course':'Create course'}</button>${editing?'<button type="button" id="course-cancel">Cancel edit</button>':''}</div></form></section><section class="admin-section"><h3>Courses</h3>${rows}</section><section class="admin-section"><h3>${lessonEditing?'Edit lesson':'Add a lesson'}</h3><form id="lesson-form" class="admin-form"><label>Course<select id="lesson-course" required>${courses.map(c=>`<option value="${c.id}" ${lessonEditing?.course_id===c.id?'selected':''}>${esc(c.title)} (${esc(c.code)})</option>`).join('')}</select></label><label>Date<input id="lesson-date" type="date" required value="${esc(lessonEditing?.class_date||'')}"></label><label>Start<input id="lesson-start" type="time" required value="${esc(lessonEditing?.starts||'09:00')}"></label><label>End<input id="lesson-end" type="time" required value="${esc(lessonEditing?.ends||'10:30')}"></label><label>Room<input id="lesson-room" maxlength="20" required value="${esc(lessonEditing?.room||'')}"></label><label>Type<select id="lesson-kind">${['Lecture','Practice','Lab'].map(k=>`<option ${lessonEditing?.kind===k?'selected':''}>${k}</option>`).join('')}</select></label><div class="admin-actions wide"><button type="submit">${lessonEditing?'Save lesson':'Add lesson'}</button>${lessonEditing?'<button type="button" id="lesson-cancel">Cancel edit</button>':''}</div></form></section><section class="admin-section"><h3>Scheduled lessons</h3>${schedule}</section>`;
+      const msg=(text,ok=false)=>{const n=$('#admin-msg');if(n){n.textContent=text;n.className='msg'+(ok?' ok':'')}};
+      $('#course-form').onsubmit=async e=>{e.preventDefault();const payload={code:$('#course-code').value,title:$('#course-title').value,description:$('#course-description').value,teacher_ids:[...$('#course-teachers').selectedOptions].map(o=>o.value)};try{await api(editing?`/admin/courses/${editing.id}`:'/admin/courses',{method:editing?'PUT':'POST',body:JSON.stringify(payload)});await showCourseAdmin()}catch(ex){msg(ex.message)}};
+      $('#course-cancel')?.addEventListener('click',()=>{editing=null;draw()});$('#lesson-cancel')?.addEventListener('click',()=>{lessonEditing=null;draw()});
+      el.querySelectorAll('[data-course-edit]').forEach(b=>b.onclick=()=>{editing=courses.find(x=>x.id===Number(b.dataset.courseEdit));lessonEditing=null;draw()});
+      el.querySelectorAll('[data-course-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this course and its related records?'))return;try{await api(`/admin/courses/${b.dataset.courseDelete}`,{method:'DELETE'});await showCourseAdmin()}catch(ex){msg(ex.message)}});
+      $('#lesson-form').onsubmit=async e=>{e.preventDefault();const payload={course_id:$('#lesson-course').value,class_date:$('#lesson-date').value,start:$('#lesson-start').value,end:$('#lesson-end').value,room:$('#lesson-room').value,kind:$('#lesson-kind').value};try{await api(lessonEditing?`/admin/schedule/${lessonEditing.id}`:'/admin/schedule',{method:lessonEditing?'PUT':'POST',body:JSON.stringify(payload)});await showCourseAdmin()}catch(ex){msg(ex.message)}};
+      el.querySelectorAll('[data-lesson-edit]').forEach(b=>b.onclick=()=>{lessonEditing=lessons.find(x=>x.id===Number(b.dataset.lessonEdit));editing=null;draw()});
+      el.querySelectorAll('[data-lesson-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Cancel this lesson?'))return;try{await api(`/admin/schedule/${b.dataset.lessonDelete}`,{method:'DELETE'});await showCourseAdmin()}catch(ex){msg(ex.message)}});
+    };
+    draw();
+  }catch(ex){if(document.querySelector('[data-v="course-admin"].on'))el.innerHTML=`<h2>Courses &amp; schedule</h2><p class="msg">${esc(ex.message)}</p>`}
+}
+
+// ---- Media: links to videos / resources per course. Student reads, teacher (own courses) and admin (all) add / remove.
+//      A card in "My courses" sets mediaFocus and opens this page filtered to that course.
+let mediaFocus=null,gradeFocus=null;   // gradeFocus: {course,task} set by the "Grade" button of a teacher's assignment
+const PLAYER_HOSTS=["https://www.youtube-nocookie.com/","https://player.vimeo.com/"];
+async function showMedia(el){
+  let focus=mediaFocus;mediaFocus=null;
+  const live=()=>el.isConnected&&document.querySelector('[data-v="media"].on');
+  el.innerHTML='<h2>Media</h2><div class=gcourses aria-busy=true>'+'<div class="gcourse sk" style="height:72px" aria-hidden=true></div>'.repeat(3)+"</div>";
+  const data=await api("/materials");
+  if(!live())return;
+  const safe=u=>/^https?:\/\//i.test(u)?u:"#";
+  const item=(m)=>`<article class="mitem" data-m="${m.id}"><div class=mrow>
+      <svg class="ico mico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#${m.embed?"i-play":"i-link"}"/></svg>
+      <div class=mbody><b>${esc(m.title)}</b><small>${esc(m.host)}${m.author?" &middot; "+esc(m.author):""} &middot; ${esc(m.created_at)}</small>${m.description?`<p>${esc(m.description)}</p>`:""}</div>
+      <div class="row mact">${m.embed?`<button type=button data-play="${m.id}" aria-expanded=false>Play</button>`:""}<a class=btnlink href="${esc(safe(m.url))}" target=_blank rel="noopener noreferrer">Open<span class=sr-only> ${esc(m.title)} in a new tab</span></a>${m.can_delete?`<button type=button data-del="${m.id}">Remove</button>`:""}</div></div>
+      <div class=mplayer></div></article>`;
+  const section=c=>`<section class=mcourse data-c="${c.id}"><div class=mhead><h3>${esc(c.title)} <span class=badge>${esc(c.code)}</span></h3>
+      <small>${esc(c.teacher)} &middot; ${c.materials.length} material${c.materials.length===1?"":"s"}</small></div>
+      <div class=mlist>${c.materials.map(item).join("")||`<p class=mempty>No materials have been attached to this course yet.</p>`}</div>
+      ${data.can_edit?`<details class=madd><summary>Add material</summary><form class="lab" data-add="${c.id}">
+        <label class=f style="flex:1 1 200px">Title<input name=title required maxlength=120 placeholder="Lecture 1: Introduction"></label>
+        <label class=f style="flex:2 1 300px">Link<input name=url type=url required maxlength=500 placeholder="https://www.youtube.com/watch?v=..."></label>
+        <label class=f style="flex:1 1 100%">Description (optional)<input name=description maxlength=500></label>
+        <button type=submit>Add material</button></form></details>`:""}</section>`;
+  let drawn=false;
+  const draw=()=>{
+    if(drawn)el.dataset.redraw="1";drawn=true;   // later redraws (add / remove) skip the page-enter animation
+    const list=focus?data.courses.filter(c=>c.id===focus):data.courses;
+    const one=focus&&list[0];
+    el.innerHTML=(one?`<div class=mbar><button type=button id=mback>&larr; My courses</button><button type=button id=mall>All courses</button></div><h2>${esc(one.title)}</h2>`:"<h2>Media</h2>")+
+      '<div class=msg id=note role=status></div>'+(list.map(section).join("")||"<p>No courses yet.</p>");
+    if(one){$("#mback").onclick=()=>show("courses");$("#mall").onclick=()=>{focus=null;draw()}}
+    el.querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>{
+      const box=b.closest(".mitem").querySelector(".mplayer"),m=findMaterial(b.dataset.play);
+      if(box.firstChild){box.replaceChildren();box.classList.remove("open");b.textContent="Play";b.setAttribute("aria-expanded","false");return}
+      if(!m||!PLAYER_HOSTS.some(h=>String(m.embed).startsWith(h)))return;
+      const f=document.createElement("iframe");f.src=m.embed;f.title=m.title;f.loading="lazy";f.allowFullscreen=true;
+      f.allow="fullscreen; picture-in-picture; encrypted-media";f.referrerPolicy="strict-origin-when-cross-origin";
+      f.setAttribute("sandbox","allow-scripts allow-same-origin allow-presentation allow-popups");
+      box.append(f);box.classList.add("open");b.textContent="Close player";b.setAttribute("aria-expanded","true");
+    });
+    el.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{
+      if(!confirm("Remove this material from the course?"))return;
+      try{await api("/materials/"+b.dataset.del,{method:"DELETE"});
+        data.courses.forEach(c=>c.materials=c.materials.filter(m=>String(m.id)!==b.dataset.del));draw();note(true,"Material removed")}
+      catch(er){note(false,er.message)}});
+    el.querySelectorAll("form[data-add]").forEach(f=>f.onsubmit=async e=>{
+      e.preventDefault();const id=Number(f.dataset.add),fd=new FormData(f);
+      try{const m=await api("/materials",{method:"POST",body:JSON.stringify({course_id:id,title:fd.get("title"),url:fd.get("url"),description:fd.get("description")})});
+        data.courses.find(c=>c.id===id).materials.unshift(m);draw();note(true,"Material added");ping()}
+      catch(er){note(false,er.message)}});
+  };
+  const findMaterial=id=>{for(const c of data.courses){const m=c.materials.find(x=>String(x.id)===String(id));if(m)return m}return null};
+  draw();
+}
+
+// ---- Grades: student = small dashboard (average, latest grades with changes, per-course breakdown);
+//      teacher = gradebook (pick course + task, give / change / remove grades)
+const num=n=>String(Math.round(Number(n)*100)/100);
+const pctClass=p=>p>=85?"hi":p>=60?"mid":"low";
+async function showGrades(el,t){
+  const live=()=>el.isConnected&&document.querySelector('[data-v="grades"].on');
+  if(!t){
+    el.innerHTML='<h2>Grades</h2><div class=cards aria-busy=true>'+'<div class="card sk" aria-hidden=true><div class=top></div><div class=strip></div></div>'.repeat(3)+"</div>";
+    const d=await api("/grades/details");
+    if(!live())return;
+    const chip=x=>x.previous_score!=null&&x.previous_score!==x.score
+      ?`<span class="gchg ${x.score>=x.previous_score?"up":"down"}">${x.score>=x.previous_score?"&#9650;":"&#9660;"} Changed, was ${num(x.previous_score)}/${num(x.max_score)}</span>`:"";
+    const feed=x=>{const p=Math.round(100*x.score/x.max_score);
+      return `<article class="gitem"><div class="gscore ${pctClass(p)}" aria-label="${num(x.score)} out of ${num(x.max_score)}"><b>${num(x.score)}</b><span>/${num(x.max_score)}</span></div>
+        <div class=gbody><div><b>${esc(x.assignment)}</b> <span class=badge>${esc(x.type)}</span> ${chip(x)}</div>
+        <small>${esc(x.course)} &middot; ${esc(x.graded_at)}${x.graded_by?" &middot; "+esc(x.graded_by):""}</small>
+        ${x.comment?`<p class=gcomment>${esc(x.comment)}</p>`:""}</div></article>`};
+    const course=c=>`<details class=gcourse><summary><span class=gname>${esc(c.course)}</span>
+        <span class=gsum>${c.percent===null?"No grades yet":num(c.score)+"/"+num(c.max_score)+" &middot; "+num(c.percent)+"%"}</span>${c.percent===null?"":bar(Math.round(c.percent))}</summary>
+        ${c.items.length?`<table><tr><th>Task</th><th>Type</th><th>Score</th><th>Graded</th></tr>${c.items.map(x=>`<tr><td><b>${esc(x.assignment)}</b>${chip(x)?"<br>"+chip(x):""}</td><td>${esc(x.type)}</td><td>${num(x.score)}/${num(x.max_score)}</td><td>${esc(x.graded_at)}</td></tr>`).join("")}</table>`:"<p><small>Nothing has been graded in this course yet.</small></p>"}</details>`;
+    el.innerHTML="<h2>Grades</h2><div class=cards>"+
+      card(`<div class=big>${d.average===null?"&ndash;":d.average+"%"}</div>`,"Average grade")+
+      card(`<div class=big>${d.graded}</div>`,"Graded tasks")+
+      card(`<div class=big>${d.courses.length}</div>`,"Courses")+"</div>"+
+      `<h2 style="margin-top:36px">Recent grades</h2><div class=gfeed>${d.recent.map(feed).join("")||"<p>No grades yet.</p>"}</div>`+
+      `<h2 style="margin-top:36px">By course</h2><div class=gcourses>${d.courses.map(course).join("")||"<p>No courses.</p>"}</div>`;
+    return;
+  }
+  const courses=await api("/courses");
+  if(!live())return;
+  if(!courses.length){el.innerHTML="<h2>Grades</h2><p>You have no courses yet.</p>";return}
+  const want=gradeFocus;gradeFocus=null;let wantTask=want&&want.task;
+  el.innerHTML=`<h2>Grades</h2><form class=lab id=gf><label class=f>Course<select id=gcs>${opts(courses,"id",x=>x.title)}</select></label>
+    <label class=f>Task<select id=gts></select></label></form><div class=msg id=note role=status></div><div id=gtable></div>`;
+  $("#gf").onsubmit=e=>e.preventDefault();
+  if(want&&courses.some(c=>c.id===want.course))$("#gcs").value=want.course;
+  let book=null;
+  const task=()=>book.assignments.find(a=>String(a.id)===$("#gts").value);
+  const draw=()=>{
+    const a=task();
+    if(!a){$("#gtable").innerHTML="<p>This course has no tasks yet. Add one under Assignments.</p>";return}
+    const byUser={};book.grades.filter(g=>g.assignment_id===a.id).forEach(g=>byUser[g.user_id]=g);
+    const subBy={};(book.submissions||[]).forEach(s=>{if(s.assignment_id===a.id)subBy[s.user_id]=s});
+    $("#gtable").innerHTML=`<table><tr><th>Student</th><th>Work (link)</th><th>Score (max ${num(a.max_score)})</th><th>Comment</th><th></th></tr>`+
+      (book.students.map(s=>{const g=byUser[s.id],sb=subBy[s.id];
+        const work=sb?`<a class=btnlink href="${esc(/^https?:\/\//i.test(sb.url)?sb.url:"#")}" target=_blank rel="noopener noreferrer">Open work<span class=sr-only> of ${esc(s.name)}</span></a>
+          <br><small>${esc(sb.submitted_at)}${sb.late?' <span class="badge od">Late</span>':""}</small>${sb.comment?`<br><small class=gcomment>${esc(sb.comment)}</small>`:""}`:"<small>Not submitted</small>";
+        return `<tr data-u="${s.id}"><td><b>${esc(s.name)}</b><br><small>${esc(s.email)}</small></td>
+          <td>${work}</td>
+          <td><input class=gin type=number step=any min=0 max=${a.max_score} value="${g?num(g.score):""}" aria-label="Score for ${esc(s.name)}" style="width:96px">
+            <br><small>${g?`Graded ${esc(g.graded_at)}${g.changed?" &middot; changed":""}`:"Not graded"}</small></td>
+          <td><input class=gcm maxlength=300 value="${esc(g?g.comment:"")}" placeholder="Comment (optional)" aria-label="Comment for ${esc(s.name)}"></td>
+          <td><div class=row><button data-save="${s.id}">Save</button>${g?`<button data-del="${g.id}">Remove</button>`:""}</div></td></tr>`}).join("")||"<tr><td colspan=5>No students are enrolled.</td></tr>")+"</table>";
+    $("#gtable").querySelectorAll("tr[data-u]").forEach(tr=>{
+      const uid=Number(tr.dataset.u),save=()=>saveRow(tr,uid);
+      tr.querySelector("[data-save]").onclick=save;
+      tr.querySelectorAll("input").forEach(i=>i.addEventListener("keydown",e=>{if(e.key==="Enter")save()}));
+      const del=tr.querySelector("[data-del]");
+      if(del)del.onclick=async()=>{if(!confirm("Remove this grade? The student will no longer see it."))return;
+        try{await api("/grades/"+del.dataset.del,{method:"DELETE"});book.grades=book.grades.filter(g=>String(g.id)!==del.dataset.del);draw();note(true,"Grade removed")}catch(er){note(false,er.message)}};
+    });
+  };
+  const saveRow=async(tr,uid)=>{
+    const a=task(),raw=tr.querySelector(".gin").value.trim();
+    if(raw===""){note(false,"Enter a score first");return}
+    try{
+      const r=await api("/grades",{method:"PUT",body:JSON.stringify({assignment_id:a.id,user_id:uid,score:raw,comment:tr.querySelector(".gcm").value})});
+      const old=book.grades.find(g=>g.assignment_id===a.id&&g.user_id===uid);
+      book.grades=book.grades.filter(g=>g!==old);
+      book.grades.push({id:r.grade.id,user_id:uid,assignment_id:a.id,score:r.grade.score,comment:r.grade.comment,graded_at:r.grade.graded_at,changed:!!(old&&(old.changed||r.changed))});
+      draw();
+      const s=book.students.find(x=>x.id===uid);note(true,r.changed?`Saved: ${s.name} - ${num(r.grade.score)}/${num(a.max_score)}`:"No changes to save");ping();
+    }catch(er){note(false,er.message)}
+  };
+  const loadCourse=async()=>{
+    $("#gtable").innerHTML="<p>Loading…</p>";
+    try{book=await api(`/courses/${$("#gcs").value}/grades`)}catch(er){$("#gtable").innerHTML="<p class=msg>"+esc(er.message)+"</p>";return}
+    if(!live())return;
+    $("#gts").innerHTML=book.assignments.map(a=>`<option value=${a.id}>${esc(a.title)} (${esc(a.type)}, max ${num(a.max_score)})</option>`).join("");
+    if(wantTask){if(book.assignments.some(a=>a.id===wantTask))$("#gts").value=wantTask;wantTask=null}
+    draw();
+  };
+  $("#gcs").onchange=loadCourse;$("#gts").onchange=draw;
+  await loadCourse();
+}
+
+async function show(v){
+  document.querySelectorAll("[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  const el=$("#view"),t=T();
+  delete el.dataset.redraw;
+  if(v==="course-admin"){if(document.body.dataset.role!=="admin"){show("courses");return;}await showCourseAdmin();return;}
+  if(v==="announcements"){await showAnnouncements();return;}
+  if(v==="media"){try{await showMedia(el)}catch(e){if(el.isConnected)el.innerHTML="<h2>Media</h2><p class=msg>"+esc(e.message)+"</p>"}return;}
+  if(v==="map"){
+    el.innerHTML='<section class="map-loading"><h2>University Map</h2><p>Loading map…</p></section>';
+    const stale=()=>!el.isConnected||!document.querySelector('[data-v="map"].on');
+    try{
+      if(!document.querySelector('link[data-map-css]')){const l=document.createElement('link');l.rel='stylesheet';l.href='map/map.css?v=3';l.dataset.mapCss='1';document.head.append(l)}
+      if(!window.UniversityMap){await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='map/map.js?v=3';s.onload=resolve;s.onerror=reject;document.head.append(s)})}
+      if(!stale())window.UniversityMap.mount(el);
+    }catch(err){if(!stale())el.innerHTML='<section class="card map-fallback"><h2>University Map</h2><p>The campus map could not be loaded.</p><a class="ms" href="https://yuujiso.github.io/aitumap/" target="_blank" rel="noopener">Open University Map</a></section>'}
+    return;
+  }
+  // runs a teacher action, redraws the page and shows the result message
+  const act=async(fn,okMsg)=>{try{await fn();await show(v);note(true,okMsg);ping()}catch(er){note(false,er.message)}};
+  const post=(path,body)=>api(path,{method:"POST",body:JSON.stringify(body)});
+  const del=path=>api(path,{method:"DELETE"});
+  try{
+  if(v==="courses"){
+    el.innerHTML="<h2>My courses</h2><div class=cards aria-busy=true>"+'<div class="card sk" aria-hidden=true><div class=top></div><div class=strip></div></div>'.repeat(5)+"</div>";
+    const c=await api("/courses");
+    el.innerHTML="<h2>My courses</h2><div class=cards>"+(c.map((x,i)=>card(cover(x.id,i)+`<b>${esc(x.title)}</b><br><small>${esc(x.code)}</small>`,
+      t?`${x.students} students`:esc(x.teacher))).join("")||"<p>No courses.</p>")+"</div>";
+    // a course card opens the materials of that course (works with the keyboard too)
+    el.querySelectorAll(".cards > .card").forEach((n,i)=>{const x=c[i];if(!x)return;
+      n.dataset.course=x.id;n.tabIndex=0;n.setAttribute("role","link");n.setAttribute("aria-label","Open materials of "+x.title);
+      const go=()=>{mediaFocus=x.id;show("media")};
+      n.onclick=go;n.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+  }else if(v==="dashboard"){
+    const [d,all,att]=await Promise.all([api("/dashboard"),api("/assignments"),t?Promise.resolve([]):api("/attendance")]);
+    const todo=all.filter(x=>x.score===null);   // not graded yet = still to do (for a teacher: every task)
+    const ctl={current:"Current",midterm:"Midterm",final:"Final"};
+    const ico='<svg class="ico tl-ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-notes"/></svg>';
+    const day=s=>{const t=new Date(s+"T00:00:00Z"),o={timeZone:"UTC"};
+      return t.toLocaleDateString("en-US",{...o,weekday:"long"})+", "+t.getUTCDate()+" "+t.toLocaleDateString("en-US",{...o,month:"long"})+" "+t.getUTCFullYear()};
+    const cards=t?card(`<div class=big>${d.courses}</div>`,"Courses")+card(`<div class=big>${d.students}</div>`,"Students")+
+        card(`<div class=big>${d.groups}</div>`,"Project groups")+card(`<div class=big>${d.assignments}</div>`,"Open assignments")
+      :card(`<div class=big>${d.courses}</div>`,"Courses")+card(`<div class=big>${d.avg_grade}%</div>`,"Average grade")+
+        card(`<div class=big>${d.groups}</div>`,"Project groups");
+    const attTable=t?"":`<h2 style="margin-top:36px">Attendance by course</h2>
+      <table><tr><th>Course</th><th>Present</th><th>%</th><th></th></tr>`+
+      (att.map(x=>{const p=Math.round(100*x.present/x.total);
+        return `<tr><td>${esc(x.course)}</td><td>${x.present}/${x.total}</td><td>${p}%</td><td>${bar(p)}</td></tr>`}).join("")||"<tr><td colspan=4>No data.</td></tr>")+"</table>";
+    el.innerHTML="<h2>Dashboard</h2><div class=cards>"+cards+"</div>"+
+      `<h2 style="margin-top:36px">${t?"Deadlines of your courses":"Timeline"}</h2>
+      <div class=tl-controls><select id=tf aria-label="Filter"><option value=all>All</option><option value=overdue>Overdue</option><option value=upcoming>Upcoming</option></select>
+      <select id=ts aria-label="Sort"><option value=dates>Sort by dates</option><option value=courses>Sort by courses</option></select>
+      <input id=tq placeholder="Search by activity type or name" aria-label="Search"></div>
+      <div id=tl></div><button id=more>Show more activities</button>`+attTable;
+    let shown=5;
+    const draw=()=>{
+      const f=$("#tf").value,q=$("#tq").value.trim().toLowerCase(),byCourse=$("#ts").value==="courses";
+      let list=todo.filter(x=>(f==="all"||(f==="overdue")===x.overdue)&&
+        (!q||[x.title,x.type,x.course,x.teacher,ctl[x.control_form]].join(" ").toLowerCase().includes(q)));
+      if(byCourse)list.sort((a,b)=>a.course.localeCompare(b.course)||(a.due_date+a.due_time).localeCompare(b.due_date+b.due_time));
+      else list.sort((a,b)=>(a.due_date+a.due_time).localeCompare(b.due_date+b.due_time));
+      const part=list.slice(0,shown);let last="",html="";
+      part.forEach(x=>{const key=byCourse?x.course:x.due_date;
+        if(key!==last){html+=`<div class=tl-day>${esc(byCourse?x.course:day(x.due_date))}</div>`;last=key}
+        html+=`<div class=tl-item><div class=tl-time>${esc(x.due_time)}</div>${ico}<div class=tl-body>
+          <div><b>${esc(x.title)}</b> <span class="badge ctl">${esc(ctl[x.control_form]||x.control_form)}</span>${x.overdue?'<span class="badge od">Overdue</span>':""}${x.submission_url?'<span class="badge ok">Submitted</span>':""}</div>
+          <small>${esc(x.type)} is due &middot; ${esc(x.course)}${t?"":" | "+esc(x.teacher)}</small>
+          <div class="left${x.overdue?" od":""}">Deadline: ${esc(fmtDate(x.due_date))}, ${esc(x.due_time)} &middot; ${esc(left(x.seconds_left))}</div></div></div>`});
+      $("#tl").innerHTML=html||"<p>No activities.</p>";
+      $("#more").style.display=list.length>shown?"inline-block":"none";
+    };
+    ["#tf","#ts"].forEach(s=>$(s).onchange=()=>{shown=5;draw()});
+    $("#tq").oninput=()=>{shown=5;draw()};
+    $("#more").onclick=()=>{shown+=5;draw()};
+    draw();
+    if(document.body.dataset.role==="student"){
+      try{const latest=await api("/announcements?limit=3&offset=0");el.insertAdjacentHTML("beforeend",`<section class="latest-announcements"><h2 style="margin-top:36px">Latest announcements</h2><div class="announcement-latest">${latest.map(a=>announcementCard(a,false,true)).join("")||"<p>No announcements yet.</p>"}</div><a href="#announcements" id="ann-see-all">See all</a></section>`);$("#ann-see-all").onclick=e=>{e.preventDefault();show("announcements")};observeAnnouncementCards(el.querySelector(".announcement-latest"));await updateAnnouncementCount()}catch(e){el.insertAdjacentHTML("beforeend",'<section class="latest-announcements"><h2 style="margin-top:36px">Latest announcements</h2><p>Announcements are temporarily unavailable.</p><a href="#announcements" id="ann-see-all">See all</a></section>');$("#ann-see-all").onclick=e=>{e.preventDefault();show("announcements")}}
+    }
+  }else if(v==="schedule"){
+    const [s,c]=await Promise.all([api("/schedule"),Promise.resolve([])]);
+    const today=(new Date().getDay()+6)%7+1;   // JS: Sunday = 0 -> our Monday = 1 ... Sunday = 7
+    const ico='<svg class="ico tl-ico" aria-hidden="true" focusable="false"><use href="icons/sprite.svg?v=6#i-calendar"/></svg>';
+    const form="";/* schedule changes are available only in the administrator panel */const legacyTeacherForm=!t?"":`<form id=sf class=lab>
+      <label class=f>Course<select id=sc required>${opts(c,"id",x=>x.title)}</select></label>
+      <label class=f>Day<select id=sd>${[1,2,3,4,5,6].map(i=>`<option value=${i}>${WD[i]}</option>`).join("")}</select></label>
+      <label class=f>Start<input id=ss type=time value=09:00 required></label>
+      <label class=f>End<input id=se type=time value=10:30 required></label>
+      <label class=f>Room<input id=sr maxlength=20 placeholder="C1.101" required style="width:110px"></label>
+      <label class=f>Type<select id=sk><option>Lecture</option><option>Practice</option><option>Lab</option></select></label>
+      <button>Add class</button></form>`;
+    let html="";
+    for(let d=1;d<=7;d++){
+      const day=s.filter(x=>x.weekday===d);
+      if(d===7&&!day.length)continue;
+      html+=`<div class=tl-day>${WD[d]}${d===today?' <span class=badge>Today</span>':""}</div>`+
+        (day.map(x=>`<div class=tl-item><div class=tl-time style="width:100px">${esc(x.starts)}&ndash;${esc(x.ends)}</div>${ico}<div class=tl-body>
+          <div><b>${esc(x.course)}</b> <span class=badge>${esc(x.kind)}</span></div>
+          <small>Room ${esc(x.room)}${t?"":" | "+esc(x.teacher)}</small></div>
+          </div>`).join("")||"<p><small>No classes</small></p>");
+    }
+    el.innerHTML="<h2>Schedule</h2>"+form+'<div class=msg id=note role=status></div>'+(s.length||t?html:"<p>No classes yet.</p>");
+
+  }else if(v==="assignments"){
+    const [a,c,ty]=await Promise.all([api("/assignments"),t?api("/courses"):Promise.resolve([]),t?api("/assignment-types"):Promise.resolve([])]);
+    const today=new Date().toLocaleDateString("sv-SE");   // local YYYY-MM-DD for the date picker
+    const ctl={current:"Current",midterm:"Midterm",final:"Final"};
+    const form=!t?"":`<form id=af class=lab>
+      <label class=f>Course<select id=ac required>${opts(c,"id",x=>x.title)}</select></label>
+      <label class=f>Title<input id=at required maxlength=100 placeholder="Homework 3"></label>
+      <label class=f>Type<select id=aty>${opts(ty,"id",x=>x.name)}</select></label>
+      <label class=f>Control<select id=acf><option value=current>Current</option><option value=midterm>Midterm</option><option value=final>Final</option></select></label>
+      <label class=f>Max score<input id=am type=number min=1 max=1000 step=any value=10 required style="width:100px"></label>
+      <label class=f>Deadline date<input id=ad type=date min=${today} required></label>
+      <label class=f>Deadline time<input id=atm type=time value=23:59 required></label>
+      <label class=f style="flex:1 1 100%">Description<textarea id=adesc maxlength=1000 placeholder="What students must do (optional)"></textarea></label>
+      <button>Add assignment</button></form>`;
+    // student: tasks still to do first; teacher: running tasks before overdue ones (stable sort keeps the date order)
+    const list=a.slice().sort((x,y)=>(t?x.overdue-y.overdue:(x.score!==null)-(y.score!==null)));
+    // student: work is handed in as a link (Google Drive, OneDrive, GitHub ...); it can be changed until the task is graded
+    const workLink=u=>esc(/^https?:\/\//i.test(u)?u:"#");
+    const status=x=>{
+      if(x.score!==null)return `${esc(x.score)}/${esc(x.max_score)}`;
+      if(x.submission_url)return `<span class="badge ok">Submitted</span>${x.submitted_late?' <span class="badge od">Late</span>':""}<br><small>${esc(x.submitted_at)}</small>
+        <div class=row style="margin-top:6px"><a class=btnlink href="${workLink(x.submission_url)}" target=_blank rel="noopener noreferrer">Open<span class=sr-only> submitted work of ${esc(x.title)}</span></a><button type=button data-sub=${x.id}>Change</button><button type=button data-unsub=${x.id}>Withdraw</button></div>`;
+      return `${x.overdue?'<span class="badge od">Overdue</span>':"To do"}<div class=row style="margin-top:6px"><button type=button data-sub=${x.id}>Submit work</button></div>`};
+    const rowsHtml=list.map(x=>`<tr><td><b>${esc(x.title)}</b> <span class="badge ctl">${esc(ctl[x.control_form]||x.control_form)}</span>
+        <br><small>${esc(x.type)} &middot; max ${esc(x.max_score)}</small>${t?`<br><small>Submitted ${x.submitted??0}/${x.enrolled??0}</small>`:""}${x.description?`<br><small>${esc(x.description)}</small>`:""}</td>
+      <td>${esc(x.course)}${t?"":`<br><small>${esc(x.teacher)}</small>`}</td>
+      <td>${esc(fmtDate(x.due_date))}, <b>${esc(x.due_time)}</b>${x.score!==null?"":`<br><span class="left${x.overdue?" od":""}">${esc(left(x.seconds_left))}</span>`}</td>
+      <td>${t?`<div class=row><button type=button data-go=${x.id} data-gc=${x.course_id}>Grade</button><button data-ad=${x.id}>Delete</button></div>`:status(x)}</td></tr>`).join("");
+    el.innerHTML="<h2>Assignments</h2>"+form+'<div class=msg id=note role=status></div>'+
+      `<table><tr><th>Task</th><th>Course</th><th>Deadline</th><th>${t?"":"Status"}</th></tr>${rowsHtml||"<tr><td colspan=4>No assignments.</td></tr>"}</table>`;
+    if(!t){
+      const byId=Object.fromEntries(a.map(x=>[x.id,x]));
+      el.querySelectorAll("[data-sub]").forEach(b=>b.onclick=()=>{
+        const tr=b.closest("tr"),next=tr.nextElementSibling;
+        if(next&&next.classList.contains("subrow")){next.remove();return}
+        const x=byId[b.dataset.sub],row=document.createElement("tr");row.className="subrow";
+        row.innerHTML=`<td colspan=4><form class=lab><label class=f style="flex:2 1 280px">Link to your work<input name=url type=url required maxlength=500 placeholder="https://drive.google.com/..." value="${esc(x.submission_url||"")}"></label>
+          <label class=f style="flex:1 1 200px">Comment (optional)<input name=comment maxlength=500 value="${esc(x.submission_comment||"")}"></label>
+          <button type=submit>${x.submission_url?"Save link":"Submit"}</button><button type=button data-cancel>Cancel</button>
+          <small style="flex:1 1 100%">Make sure the link is open to anyone who has it, or shared with your teacher: the teacher opens it to check your work.</small></form></td>`;
+        tr.after(row);
+        const f=row.querySelector("form");f.elements.url.focus();
+        row.querySelector("[data-cancel]").onclick=()=>row.remove();
+        f.onsubmit=e=>{e.preventDefault();
+          act(()=>api("/submissions",{method:"PUT",body:JSON.stringify({assignment_id:x.id,url:f.elements.url.value,comment:f.elements.comment.value})}),
+            x.submission_url?"Link updated":"Work submitted")};
+      });
+      el.querySelectorAll("[data-unsub]").forEach(b=>b.onclick=()=>{if(confirm("Withdraw this submission?"))act(()=>del("/submissions/"+b.dataset.unsub),"Submission withdrawn")});
+    }
+    if(t){
+      el.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{gradeFocus={course:Number(b.dataset.gc),task:Number(b.dataset.go)};show("grades")});
+      $("#af").onsubmit=e=>{e.preventDefault();
+        act(()=>post("/assignments",{course_id:$("#ac").value,title:$("#at").value,type_id:$("#aty").value,control_form:$("#acf").value,
+          max_score:$("#am").value,due_date:$("#ad").value,due_time:$("#atm").value,description:$("#adesc").value}),"Assignment added")};
+      el.querySelectorAll("[data-ad]").forEach(b=>b.onclick=()=>{if(confirm("Delete this assignment?"))act(()=>del("/assignments/"+b.dataset.ad),"Assignment deleted")});
+    }
+  }else if(v==="applications"){
+    const adm=document.body.dataset.role==="admin";
+    const [a,ty]=await Promise.all([api("/applications"),adm?Promise.resolve([]):api("/application-types")]);
+    const st={pending:["Pending",""],approved:["Approved"," ok"],rejected:["Rejected"," od"]};
+    const badge=s=>`<span class="badge${st[s][1]}">${st[s][0]}</span>`;
+    if(!adm){
+      const rowsHtml=a.map(x=>`<tr><td>${esc(x.created_at)}</td><td><b>${esc(x.type_title)}</b></td><td>${esc(x.message)}</td>
+        <td>${badge(x.status)}${x.review_comment?`<br><small>${esc(x.review_comment)}</small>`:""}</td>
+        <td>${x.status==="pending"?`<button data-w=${x.id}>Withdraw</button>`:""}</td></tr>`).join("");
+      el.innerHTML=`<h2>Applications</h2><form id=pf class=lab>
+        <label class=f>Type<select id=pt>${opts(ty,"id",x=>x.title)}</select></label>
+        <label class=f style="flex:1 1 300px">Message<textarea id=pm required maxlength=1000 placeholder="Explain your application"></textarea></label>
+        <button>Submit application</button></form><div class=msg id=note role=status></div>
+        <table><tr><th>Date</th><th>Type</th><th>Message</th><th>Status</th><th></th></tr>${rowsHtml||"<tr><td colspan=5>No applications yet.</td></tr>"}</table>`;
+      $("#pf").onsubmit=e=>{e.preventDefault();act(()=>post("/applications",{type_id:$("#pt").value,message:$("#pm").value}),"Application submitted")};
+      el.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{if(confirm("Withdraw this application?"))act(()=>del("/applications/"+b.dataset.w),"Application withdrawn")});
+    }else{
+      el.innerHTML=`<h2>Applications</h2><div class=tl-controls><select id=pfl aria-label="Status filter">
+        <option value=pending>Pending</option><option value=all>All</option><option value=approved>Approved</option><option value=rejected>Rejected</option></select></div>
+        <div class=msg id=note role=status></div><div id=pl></div>`;
+      const draw=()=>{
+        const f=$("#pfl").value,list=a.filter(x=>f==="all"||x.status===f);
+        $("#pl").innerHTML=`<table><tr><th>Student</th><th>Type</th><th>Message</th><th>Date</th><th>Decision</th></tr>`+(list.map(x=>`<tr>
+          <td>${esc(x.student)}<br><small>${esc(x.email)}</small></td><td><b>${esc(x.type_title)}</b></td><td>${esc(x.message)}</td><td>${esc(x.created_at)}</td>
+          <td>${x.status==="pending"?`<div class=row><input data-c=${x.id} maxlength=500 placeholder="Comment (required to reject)" aria-label="Comment">
+            <button data-ap=${x.id}>Approve</button><button data-rj=${x.id}>Reject</button></div>`
+            :`${badge(x.status)}${x.review_comment?`<br><small>${esc(x.review_comment)}</small>`:""}`}</td></tr>`).join("")||"<tr><td colspan=5>No applications.</td></tr>")+"</table>";
+        const review=(id,decision)=>act(()=>post("/applications/"+id+"/review",{decision,comment:$("[data-c='"+id+"']").value}),decision==="approved"?"Application approved":"Application rejected");
+        el.querySelectorAll("[data-ap]").forEach(b=>b.onclick=()=>review(b.dataset.ap,"approved"));
+        el.querySelectorAll("[data-rj]").forEach(b=>b.onclick=()=>review(b.dataset.rj,"rejected"));
+      };
+      $("#pfl").onchange=draw;draw();
+    }
+  }else if(v==="checkin"&&t){
+    // teacher: a QR code for the class that is open for check-in; it renews itself before it expires
+    el.innerHTML='<h2>Check-in</h2><div id=qrbox><p>Loading...</p></div>';
+    const load=async()=>{
+      if(!el.isConnected||!document.querySelector('[data-v="checkin"].on'))return;
+      try{
+        const d=await api("/checkin/qr");
+        $("#qrbox").innerHTML=`<p><b>${esc(d.course)}</b> &middot; room ${esc(d.room)} &middot; starts ${esc(d.start)}</p>
+          ${d.image?`<img src="${d.image}" alt="QR code for check-in" width=220 height=220 style="background:#fff;padding:8px;border-radius:8px">`:""}
+          <p>Code: <code>${esc(d.code)}</code></p>
+          <p><small>The code renews itself every ${d.expires_in-5} seconds. Students scan it with the phone camera, or paste the code under Check-in.</small></p>`;
+        setTimeout(load,(d.expires_in-5)*1000);
+      }catch(er){const b=$("#qrbox");if(b)b.innerHTML="<p class=msg>"+esc(er.message)+"</p>"}
+    };
+    load();
+  }else if(v==="checkin"){
+    // student: enter or auto-submit a QR code, see own latest check-ins
+    const h=await api("/checkins");
+    const pend=sessionStorage.getItem("pc")||"";sessionStorage.removeItem("pc");
+    const how={ok:"Checked in",duplicate:"Already checked in",not_enrolled:"Not enrolled",no_lesson:"No open class",bad_code:"Invalid code",unknown_card:"Unknown card",wrong_role:"Not a student"};
+    el.innerHTML=`<h2>Check-in</h2>
+      <p>In a classroom with a card reader, tap your student card on it. Otherwise scan the QR code on the teacher's screen with your phone camera, or paste its code here.</p>
+      <form id=cf class=lab><label class=f style="flex:1 1 300px">Code<input id=cc maxlength=80 value="${esc(pend)}" required></label><button>Check in</button></form>
+      <div class=msg id=note role=status></div>
+      <h2 style="margin-top:36px">My latest check-ins</h2>
+      <table><tr><th>Time</th><th>Course</th><th>Method</th><th>Result</th></tr>${h.map(x=>`<tr><td>${esc(x.at)}</td><td>${esc(x.course||"-")}</td><td>${esc(x.method.toUpperCase())}</td><td>${esc(how[x.result]||x.result)}</td></tr>`).join("")||"<tr><td colspan=4>No check-ins in the last 30 days.</td></tr>"}</table>`;
+    $("#cf").onsubmit=async e=>{e.preventDefault();
+      try{const r=await post("/checkin",{method:"qr",code:$("#cc").value.trim()});await show(v);note(true,r.message+": "+r.course);ping()}
+      catch(er){note(false,er.message)}};
+    if(pend)$("#cf").requestSubmit();
+  }else if(v==="devices"){
+    // admin: card readers and student cards
+    const d=await api("/devices");
+    el.innerHTML=`<h2>Check-in readers</h2>
+      <form id=df class=lab><label class=f>Room<input id=dr maxlength=20 placeholder="C1.101" required style="width:110px"></label>
+        <label class=f>Name<input id=dn maxlength=60 placeholder="Door reader"></label><button>Register reader</button></form>
+      <form id=kf class=lab><label class=f>Student e-mail<input id=ke type=email required placeholder="260002@astanait.edu.kz"></label>
+        <label class=f>Card UID (hex)<input id=ku maxlength=20 pattern="[0-9A-Fa-f]{8,20}" required placeholder="04000002" style="width:150px"></label><button>Link card</button></form>
+      <div class=msg id=note role=status></div>
+      <table><tr><th>Room</th><th>Name</th><th>ID</th><th>Last seen</th><th></th></tr>${d.map(x=>`<tr><td>${esc(x.room)}</td><td>${esc(x.name)}</td><td>${x.id}</td>
+        <td>${esc(x.last_seen||"never")}</td><td><button data-dd=${x.id}>Remove</button></td></tr>`).join("")||"<tr><td colspan=5>No readers yet.</td></tr>"}</table>
+      <p style="margin-top:24px"><button id=rl>Show raw check-in log</button> <small>Opening the log is recorded in an audit table. Rows are deleted after 30 days.</small></p><div id=lg></div>`;
+    $("#df").onsubmit=async e=>{e.preventDefault();
+      try{const r=await post("/devices",{room:$("#dr").value,name:$("#dn").value});await show(v);note(true,`Reader ${r.id} for ${r.room} created. Key (shown once): ${r.key}`);ping()}
+      catch(er){note(false,er.message)}};
+    $("#kf").onsubmit=e=>{e.preventDefault();act(()=>post("/cards",{email:$("#ke").value,card_uid:$("#ku").value}),"Card linked")};
+    el.querySelectorAll("[data-dd]").forEach(b=>b.onclick=()=>{if(confirm("Remove this reader?"))act(()=>del("/devices/"+b.dataset.dd),"Reader removed")});
+    $("#rl").onclick=async()=>{try{const l=await api("/admin/checkins");
+      $("#lg").innerHTML="<table><tr><th>Time</th><th>Student</th><th>Method</th><th>Result</th><th>Reader</th></tr>"+(l.map(x=>`<tr><td>${esc(x.at)}</td><td>${esc(x.student||"unknown card")}</td><td>${esc(x.method)}</td><td>${esc(x.result)}</td><td>${esc(x.reader||"-")}</td></tr>`).join("")||"<tr><td colspan=5>Empty.</td></tr>")+"</table>"}
+      catch(er){note(false,er.message)}};
+  }else if(v==="support"){
+    const requests=await api("/support-requests");
+    el.innerHTML=`<h2>Support requests</h2><div class="msg" id="note" role="status" aria-live="polite"></div>`+(requests.map(x=>`<article class="support-card"><b>${esc(x.email)}</b><p>${esc(x.message)}</p><small>${esc(x.created_at)} · ${esc(x.status)}</small>${x.status==="new"?`<div><button data-support-resolve="${x.id}">Mark resolved</button></div>`:""}</article>`).join("")||"<p>No support requests.</p>");
+    el.querySelectorAll("[data-support-resolve]").forEach(b=>b.onclick=()=>act(()=>fetch(BASE+"/api/support-requests/"+b.dataset.supportResolve,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:token},body:JSON.stringify({status:"resolved"})}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.error||"Error");return d}),"Support request resolved"));
+  }else if(v==="attendance"){
+    const a=await api("/attendance");
+    el.innerHTML="<h2>Attendance</h2><table><tr><th>Course</th><th>Present</th><th></th></tr>"+a.map(x=>{const p=Math.round(100*x.present/x.total);
+      return `<tr><td>${esc(x.course)}</td><td>${x.present}/${x.total}</td><td>${bar(p)}</td></tr>`}).join("")+"</table>";
+  }else if(v==="grades"){
+    await showGrades(el,t);
+  }else{
+    const [g,c]=await Promise.all([api("/groups"),t?api("/courses"):Promise.resolve([])]);
+    const studs={};   // course id -> students of the course (teacher only, needed for the "add student" lists)
+    if(t)await Promise.all(c.map(async x=>{studs[x.id]=await api("/courses/"+x.id+"/students")}));
+    const form=!t?"":`<form id=gf class=lab>
+      <label class=f>Group name<input id=gn placeholder="Team Alpha" required maxlength=60></label>
+      <label class=f>Course<select id=gc>${opts(c,"id",x=>x.title)}</select></label>
+      <label class=f>Max size<input id=gs type=number min=2 max=6 value=4 style="width:80px"></label>
+      <button>Create group</button></form>`;
+    const box=x=>{
+      const people=x.participants.map(p=>`<li><span>${esc(p.name)}${p.email?` <small>${esc(p.email)}</small>`:""}</span>
+        ${t?`<button data-rg=${x.id} data-ru=${p.id} aria-label="Remove ${esc(p.name)}">Remove</button>`:""}</li>`).join("")||"<li><small>No participants yet</small></li>";
+      let manage="";
+      if(t){
+        const free=(studs[x.course_id]||[]).filter(s=>s.group_id===null);
+        const full=x.members>=x.max_size;
+        manage=`<div class=row><select id=sel-${x.id} aria-label="Student to add" ${full||!free.length?"disabled":""}>
+            ${free.map(s=>`<option value=${s.id}>${esc(s.name)} (${esc(s.email)})</option>`).join("")||"<option>No free students</option>"}</select>
+          <button data-ag=${x.id} ${full||!free.length?"disabled":""}>${full?"Group is full":"Add student"}</button></div>
+          <button data-d=${x.id}>Delete group</button>`;
+      }
+      return `<div class=gbox><div><b>${esc(x.name)}</b><br><small>${esc(x.course)} &middot; ${x.members}/${x.max_size} participants</small></div>
+        <ul>${people}</ul>${manage}</div>`};
+    el.innerHTML="<h2>Project groups</h2>"+form+'<div class=msg id=note role=status></div>'+
+      `<div class=gboxes>${g.map(box).join("")||(t?"<p>No groups yet.</p>":"<p>You are not in a project group yet. Your teacher adds students to groups.</p>")}</div>`;
+    if(t){
+      $("#gf").onsubmit=e=>{e.preventDefault();
+        act(()=>post("/groups",{name:$("#gn").value,course_id:$("#gc").value,max_size:$("#gs").value}),"Group created")};
+      el.querySelectorAll("[data-ag]").forEach(b=>b.onclick=()=>act(()=>post("/groups/"+b.dataset.ag+"/members",{user_id:$("#sel-"+b.dataset.ag).value}),"Student added to the group"));
+      el.querySelectorAll("[data-rg]").forEach(b=>b.onclick=()=>{if(confirm("Remove this student from the group?"))act(()=>del("/groups/"+b.dataset.rg+"/members/"+b.dataset.ru),"Student removed")});
+      el.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{if(confirm("Delete this group?"))act(()=>del("/groups/"+b.dataset.d),"Group deleted")});
+    }
+  }}catch(e){el.innerHTML="<p class=msg>"+esc(e.message)+"</p>"}
+}
+let recoveryEmail="",recoveryTicker=null,recoveryToken="";
+const recoveryShell=$("#recovery-shell"),recoveryPanel=$("#recovery-panel");
+const showRecovery=(html,focus)=>{if(recoveryTicker){clearInterval(recoveryTicker);recoveryTicker=null}$("#login").style.display="none";$("#app").style.display="none";recoveryShell.style.display="flex";recoveryPanel.innerHTML=html;if(focus)recoveryPanel.querySelector(focus)?.focus()};
+const hideRecovery=()=>{if(recoveryTicker){clearInterval(recoveryTicker);recoveryTicker=null}recoveryShell.style.display="none";$("#login").style.display="flex";$("#email").focus()};
+const universityEmail=s=>/^[^\s@]+@astanait\.edu\.kz$/i.test(s.trim());
+const networkMessage=e=>e instanceof TypeError?"You appear to be offline. Check your connection and try again.":(e?.message||"Something went wrong. Please try again.");
+function recoveryRequestView(email=""){
+  recoveryEmail=email;
+  showRecovery(`<h1>Recover your password</h1><p>Step 1 of 4 · Request a recovery link</p><form id="recovery-request-form" novalidate><label for="recovery-email">University email</label><input id="recovery-email" type="email" autocomplete="email" required value="${esc(email)}" aria-describedby="recovery-email-hint"><span id="recovery-email-hint" class="hint">Use your @astanait.edu.kz address.</span><p id="recovery-error" class="msg" aria-live="polite"></p><button class="ms" type="submit">Send recovery link</button></form><a class="text-action" href="#signin" id="recovery-back">Back to sign in</a>`,"#recovery-email");
+  $("#recovery-back").onclick=e=>{e.preventDefault();hideRecovery()};
+  $("#recovery-request-form").onsubmit=async e=>{e.preventDefault();const emailValue=$("#recovery-email").value.trim();if(!universityEmail(emailValue)){$("#recovery-error").textContent="Enter your university email address ending in @astanait.edu.kz.";$("#recovery-email").focus();return}recoveryEmail=emailValue;const button=e.currentTarget.querySelector('button[type="submit"]');button.disabled=true;try{const data=await api("/recover/request",{method:"POST",body:JSON.stringify({email:emailValue})});recoverySentView(emailValue,data.demo_mode)}catch(err){$("#recovery-error").textContent=networkMessage(err)}finally{if(button.isConnected)button.disabled=false}};
+}
+function recoverySentView(email,demoMode){
+  showRecovery(`<h1>Check your email</h1><p>Step 2 of 4 · Recovery link requested</p><p>If this address is registered, we sent a link. It is valid for 30 minutes.</p><p>If it does not arrive:</p><ul><li>Check your Spam folder.</li><li>Wait 5 minutes.</li><li>Check that the address is spelled correctly.</li></ul><p id="recovery-error" class="msg" aria-live="polite"></p><div class="auth-actions"><button id="send-again" class="ms" type="button" disabled>Send again (60)</button><button id="contact-support" class="secondary" type="button">Contact LMS support</button>${demoMode?'<a class="text-action" href="/demo-inbox" target="_blank" rel="noopener">Open Demo inbox</a>':''}</div><a class="text-action" href="#signin" id="recovery-back">Back to sign in</a>`,null);
+  $("#recovery-back").onclick=e=>{e.preventDefault();hideRecovery()};$("#contact-support").onclick=()=>supportRequestView(email);
+  const resend=$("#send-again");let left=60;recoveryTicker=setInterval(()=>{left--;if(left<=0){clearInterval(recoveryTicker);recoveryTicker=null;resend.disabled=false;resend.textContent="Send again"}else resend.textContent=`Send again (${left})`},1000);
+  resend.onclick=async()=>{if(resend.disabled)return;resend.disabled=true;resend.textContent="Sending…";try{const data=await api("/recover/request",{method:"POST",body:JSON.stringify({email})});recoverySentView(email,data.demo_mode)}catch(err){$("#recovery-error").textContent=networkMessage(err);resend.disabled=false;resend.textContent="Send again"}};
+}
+function supportRequestView(email=""){
+  showRecovery(`<h1>Contact LMS support</h1><p>Tell us how we can help with account recovery.</p><form id="support-request-form"><label for="support-email">University email</label><input id="support-email" type="email" required value="${esc(email)}"><label for="support-message">Message</label><textarea id="support-message" class="support-message" maxlength="1000" required minlength="10" placeholder="Briefly describe the issue"></textarea><p id="recovery-error" class="msg" aria-live="polite"></p><button class="ms" type="submit">Send support request</button></form><a class="text-action" href="#signin" id="recovery-back">Back to sign in</a>`,"#support-email");
+  $("#recovery-back").onclick=e=>{e.preventDefault();hideRecovery()};
+  $("#support-request-form").onsubmit=async e=>{e.preventDefault();const emailValue=$("#support-email").value.trim(),message=$("#support-message").value.trim();if(!universityEmail(emailValue)){$("#recovery-error").textContent="Enter your university email address ending in @astanait.edu.kz.";return}if(message.length<10){$("#recovery-error").textContent="Write a short message with at least 10 characters.";return}const b=e.currentTarget.querySelector('button[type="submit"]');b.disabled=true;try{await api("/support-requests",{method:"POST",body:JSON.stringify({email:emailValue,message})});showRecovery(`<h1>Support request sent</h1><p>Your request is in the support queue. You can return to sign in now.</p><button class="ms" id="support-done" type="button">Back to sign in</button>`,"#support-done");$("#support-done").onclick=hideRecovery}catch(err){$("#recovery-error").textContent=networkMessage(err);b.disabled=false}};
+}
+async function beginPasswordReset(tokenValue){
+  recoveryToken=tokenValue;history.replaceState(null,"",location.pathname);
+  showRecovery(`<h1>Set a new password</h1><p>Step 3 of 4 · Choose a new password</p><p id="recovery-error" class="msg" aria-live="polite">Checking your recovery link…</p>`);
+  try{await api("/recover/check?token="+encodeURIComponent(tokenValue));recoveryPasswordView()}catch(err){const msg=networkMessage(err);let title="Recovery link unavailable",next=msg;if(msg.includes("expired")){title="Link expired";next="This link has expired. Request a new one."}else if(msg.includes("already been used")){title="Link already used";next="This link has already been used. Request a new one."}else if(msg.includes("invalid")){title="Invalid link";next="This link is invalid. Request a new one."}showRecovery(`<h1>${title}</h1><p class="msg" aria-live="polite">${esc(next)}</p><button class="ms" id="request-new-link" type="button">Request a new link</button>`,"#request-new-link");$("#request-new-link").onclick=()=>recoveryRequestView(recoveryEmail)}
+}
+function recoveryPasswordView(){
+  showRecovery(`<h1>Set a new password</h1><p>Step 3 of 4 · Choose a new password</p><form id="new-password-form"><label for="new-password">New password</label><div class="pw-row"><input id="new-password" type="password" autocomplete="new-password" required aria-describedby="password-hint"><button type="button" class="toggle-password" data-target="new-password">Show</button></div><span id="password-hint" class="hint">Use at least 8 characters, including a letter and a number.</span><div class="strength" aria-label="Password strength"><span id="strength-bar"></span></div><ul class="checklist"><li id="rule-length">At least 8 characters</li><li id="rule-letter">Contains a letter</li><li id="rule-number">Contains a number</li></ul><label for="confirm-password">Confirm new password</label><div class="pw-row"><input id="confirm-password" type="password" autocomplete="new-password" required><button type="button" class="toggle-password" data-target="confirm-password">Show</button></div><p id="recovery-error" class="msg" aria-live="polite"></p><button class="ms" type="submit">Change password</button></form>`,"#new-password");
+  recoveryPanel.querySelectorAll('.toggle-password').forEach(b=>b.onclick=()=>{const input=$("#"+b.dataset.target);input.type=input.type==="password"?"text":"password";b.textContent=input.type==="password"?"Show":"Hide"});
+  $("#new-password").oninput=()=>{const v=$("#new-password").value,letter=/[A-Za-z]/.test(v),number=/[0-9]/.test(v),length=v.length>=8;[["rule-length",length],["rule-letter",letter],["rule-number",number]].forEach(([id,ok])=>{$("#"+id).textContent=(ok?"✓ ":"• ")+$("#"+id).textContent.replace(/^[✓•] /,"")});const score=Number(length)+Number(letter)+Number(number),bar=$("#strength-bar");bar.style.width=(score*33.33)+"%";bar.style.background=score===3?"#16833c":score===2?"#c18a00":"#b44"};
+  $("#new-password-form").onsubmit=async e=>{e.preventDefault();const pw=$("#new-password").value,confirm=$("#confirm-password").value;if(pw!==confirm){$("#recovery-error").textContent="The passwords do not match. Enter them again.";$("#confirm-password").focus();return}if(pw.length<8||!/[A-Za-z]/.test(pw)||!/[0-9]/.test(pw)||new TextEncoder().encode(pw).length>72){$("#recovery-error").textContent="Use at least 8 characters, including a letter and a number.";$("#new-password").focus();return}const b=e.currentTarget.querySelector('button[type="submit"]');b.disabled=true;try{await api("/recover/reset",{method:"POST",body:JSON.stringify({token:recoveryToken,password:pw,confirm_password:confirm})});recoveryToken="";recoverySuccessView()}catch(err){$("#recovery-error").textContent=networkMessage(err);b.disabled=false}};
+}
+function recoverySuccessView(){showRecovery(`<h1>Password changed</h1><p>Your password has been updated. For your security, you will need to sign in again on other devices.</p><button class="ms" id="recovery-signin" type="button">Sign in</button>`,"#recovery-signin");$("#recovery-signin").onclick=hideRecovery}
+$("#forgot-password").onclick=e=>{e.preventDefault();recoveryRequestView($("#email").value.trim())};
+const recoveryTokenFromUrl=new URLSearchParams(location.search).get("recover_token");
+if(recoveryTokenFromUrl)beginPasswordReset(recoveryTokenFromUrl);else if(token)start();
+
+</script>
+<script src="ui/ui.js?v=1" defer></script>
+</body>
+</html>
+
